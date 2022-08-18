@@ -47,6 +47,10 @@ lgl::Shader::~Shader() {
 	glDeleteProgram(program);
 }
 
+lgl::Shader::Shader() {
+	
+}
+
 lgl::Shader::Shader(const std::string &vs_filename, const std::string &fs_filename, bool file) {
 	program = glCreateProgram();
 

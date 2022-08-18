@@ -17,9 +17,9 @@ namespace lgl {
 		bool light = false;
 	
 	public:
+		Shader();
 		Shader(const std::string &vs_filename, const std::string &fs_filename, bool file);
 		Shader(const std::string &vs_filename, const std::string &fs_filename);
-		Shader();
 		~Shader();
 
 		void Bind();
