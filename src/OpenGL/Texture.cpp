@@ -5,6 +5,7 @@
 #include <stb_image.h>
 #include <LucyGL/Texture.h>
 #include <glad/glad.h>
+//#include <iostream>
 
 #define NULL_TEXTURE {\
 	255,   0, 255, 255,   0,   0,   0, 255, 255,   0, 255, 255,   0,   0,   0, 255,\
@@ -29,9 +30,13 @@ lgl::Texture::Texture(TextureMode mode) {
 	this->mode = mode;
 
 	glGenTextures(1, &id);
+
+	//std::cout << "Texture Created: " << id << '\n';
 }
 
 lgl::Texture::~Texture() {
+	//std::cout << "Texture Deleted: " << id << '\n';
+
 	glDeleteTextures(1, &id);
 }
 

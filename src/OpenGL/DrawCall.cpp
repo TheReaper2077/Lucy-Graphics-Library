@@ -5,7 +5,8 @@
 #include <assert.h>
 
 enum DrawMode {
-	NONE,
+	DEFAULT = lgl::NONE,
+
 	INDIRECT,
 	INSTANCED,
 	INSTANCED_BASEINSTANCE,
@@ -37,7 +38,7 @@ enum DrawMode {
 
 bool DrawCmd(DrawMode drawmode, lgl::Primitive mode, lgl::Type type, lgl::Format format, int first, int start, int end, int count, int basevertex, int baseinstance, int instancecount, int width, int height, void* indices, void* indirect, void* pixels) {
 	switch (drawmode) {
-		case NONE:
+		case DEFAULT:
 			glDrawArrays(mode, first, count);
 			break;
 		case INDIRECT:
@@ -118,5 +119,5 @@ bool lgl::MultiDrawIndexed(Primitive mode, int count, Type type, void* indices) 
 }
 
 bool lgl::Draw(Primitive mode, int first, int count) {
-	return DrawCmd(NONE, mode, (Type)0, (Format)0, first, 0, 0, count, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr);
+	return DrawCmd(DEFAULT, mode, (Type)0, (Format)0, first, 0, 0, count, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr);
 }

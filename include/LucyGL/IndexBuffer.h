@@ -10,6 +10,7 @@ namespace lgl {
 		size_t size;
 		
 		IndexBuffer();
+		IndexBuffer(void* data, size_t size);
 		~IndexBuffer();
 
 		void Bind();

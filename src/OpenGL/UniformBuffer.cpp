@@ -2,13 +2,18 @@
 
 #include <glad/glad.h>
 #include <assert.h>
+//#include <iostream>
 
 lgl::UniformBuffer::UniformBuffer() {
 	size = 0;
 	glGenBuffers(1, &id);
+
+	//std::cout << "UniformBuffer Created: " << id << '\n';
 }
 
 lgl::UniformBuffer::~UniformBuffer() {
+	//std::cout << "UniformBuffer Deleted: " << id << '\n';
+
 	glDeleteBuffers(1, &id);
 }
 

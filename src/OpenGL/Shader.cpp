@@ -20,9 +20,15 @@ static std::string read_file(const std::string &filename) {
 void Compile(unsigned int &program, const std::string &filename, unsigned int target, bool file) {
 	unsigned int shader = glCreateShader(target);
 	std::string text;
-	if (file) text = read_file(filename);
-	else text = filename;
+	if (file)
+		text = read_file(filename);
+	else
+		text = filename;
+
 	const char* src = text.c_str();
+
+	assert(src != nullptr);
+
 	glShaderSource(shader, 1, &src, NULL);
 	glCompileShader(shader);
 
@@ -44,29 +50,57 @@ void Compile(unsigned int &program, const std::string &filename, unsigned int ta
 };
 
 lgl::Shader::~Shader() {
+	//std::cout << "Shader Deleted: " << program << '\n';
+
 	glDeleteProgram(program);
 }
 
+void lgl::Shader::VertexShader(const std::string& src, bool file) {
+	Compile(program, src, GL_VERTEX_SHADER, file);
+}
+
+void lgl::Shader::FragmentShader(const std::string& src, bool file) {
+	Compile(program, src, GL_FRAGMENT_SHADER, file);
+}
+
+void lgl::Shader::ComputeShader(const std::string& src, bool file) {
+	Compile(program, src, GL_COMPUTE_SHADER, file);
+}
+
+void lgl::Shader::GeometryShader(const std::string& src, bool file) {
+	Compile(program, src, GL_GEOMETRY_SHADER, file);
+}
+
+void lgl::Shader::Link() {
+	glLinkProgram(program);
+}
+
 lgl::Shader::Shader() {
-	
+	program = glCreateProgram();
+
+	//std::cout << "Shader Created: " << program << '\n';
 }
 
 lgl::Shader::Shader(const std::string &vs_filename, const std::string &fs_filename, bool file) {
 	program = glCreateProgram();
 
-	Compile(program, vs_filename, GL_VERTEX_SHADER, file);
-	Compile(program, fs_filename, GL_FRAGMENT_SHADER, file);
+	//std::cout << "Shader Created: " << program << '\n';
 
-	glLinkProgram(program);
+	VertexShader(vs_filename, file);
+	FragmentShader(fs_filename, file);
+
+	Link();
 }
 
 lgl::Shader::Shader(const std::string &vs_filename, const std::string &fs_filename) {
 	program = glCreateProgram();
 
-	Compile(program, vs_filename, GL_VERTEX_SHADER, true);
-	Compile(program, fs_filename, GL_FRAGMENT_SHADER, true);
+	//std::cout << "Shader Created: " << program << '\n';
 
-	glLinkProgram(program);
+	VertexShader(vs_filename, true);
+	FragmentShader(fs_filename, true);
+
+	Link();
 }
 
 void lgl::Shader::Bind() {

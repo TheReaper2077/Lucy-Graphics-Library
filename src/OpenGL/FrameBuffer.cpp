@@ -4,12 +4,14 @@
 
 #include <glad/glad.h>
 #include <assert.h>
+//#include <iostream>
 
 lgl::FrameBuffer::FrameBuffer(int width, int height, bool is_picking) {
 	this->width = width;
 	this->height = height;
 
 	glGenFramebuffers(1, &id);
+	//std::cout << "FBO Created: " << id << '\n';
 
 	Bind();
 
@@ -22,6 +24,7 @@ lgl::FrameBuffer::FrameBuffer(int width, int height, bool is_picking) {
 	texture->SetFilteringMode(FilterMode_LINEAR, FilterMode_LINEAR);
 
 	texture->UnBind();
+	AttachTexture2D(COLOR_ATTACHMENT0, TEXTURE_2D, texture->id, 0);
 
 	if (is_picking) {
 		picking = new Texture();
@@ -37,14 +40,9 @@ lgl::FrameBuffer::FrameBuffer(int width, int height, bool is_picking) {
 	}
 
 	Texture depth_stencil;
-	
 	depth_stencil.Bind();
-	
 	depth_stencil.Load2D(0, DEPTH24_STENCIL8, width, height, 0, DEPTH_STENCIL, UNSIGNED_INT_24_8, nullptr);
-	
 	depth_stencil.UnBind();
-
-	AttachTexture2D(COLOR_ATTACHMENT0, TEXTURE_2D, texture->id, 0);
 	AttachTexture2D(DEPTH_STENCIL_ATTACHMENT, TEXTURE_2D, depth_stencil.id, 0);
 
 	if (picking) {
@@ -72,15 +70,16 @@ void lgl::FrameBuffer::UnBind() {
 
 lgl::FrameBuffer::~FrameBuffer() {
 	if (texture != nullptr) {
-		free(texture);
+		delete texture;
 		texture = nullptr;
 	}
 
 	if (picking != nullptr) {
-		free(picking);
+		delete picking;
 		picking = nullptr;
 	}
 
+	//std::cout << "FBO Deleted: " << id << '\n';
 	glDeleteFramebuffers(1, &id);
 }
 
@@ -95,7 +94,7 @@ void lgl::FrameBuffer::AttachTexture2D(Attachment attachment, Texture* texture, 
 }
 
 void lgl::FrameBuffer::SetDrawAttachments(const std::vector<Attachment>& attachments) {
-	auto* draw_attachments = (unsigned int*)malloc(attachments.size() * sizeof(unsigned int));
+	auto* draw_attachments = new unsigned int[attachments.size() * sizeof(unsigned int)];
 
 	for (int i = 0; i < attachments.size(); i++)
 		draw_attachments[i] = attachments[i];

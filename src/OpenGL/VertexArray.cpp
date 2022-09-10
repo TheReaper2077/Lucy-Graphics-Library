@@ -6,10 +6,13 @@
 
 #include <glad/glad.h>
 #include <assert.h>
+//#include <iostream>
 
 lgl::VertexArray::VertexArray(std::vector<VertexArrayAttribDescriptor> layouts) {
 	glGenVertexArrays(1, &id);
 	
+	//std::cout << "VertexArray Created: " << id << '\n';
+
 	Bind();
 
 	uint32_t relativeoffset = 0;
@@ -63,6 +66,8 @@ lgl::VertexArray::VertexArray(std::vector<VertexArrayAttribDescriptor> layouts) 
 }
 
 lgl::VertexArray::~VertexArray() {
+	//std::cout << "VertexArray Deleted: " << id << '\n';
+
 	glDeleteVertexArrays(1, &id);
 }
 

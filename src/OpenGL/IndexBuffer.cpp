@@ -2,10 +2,23 @@
 
 #include <glad/glad.h>
 #include <assert.h>
+//#include <iostream>
 
 lgl::IndexBuffer::IndexBuffer() {
 	glGenBuffers(1, &id);
 	size = 0;
+
+	//std::cout << "IndexBuffer Created: " << id << '\n';
+}
+
+lgl::IndexBuffer::IndexBuffer(void* data, size_t size) {
+	glGenBuffers(1, &id);
+	this->size = 0;
+
+	Bind();
+	Allocate(size);
+	AddData(data, size);
+	UnBind();
 }
 
 void lgl::IndexBuffer::Bind() {
@@ -17,6 +30,8 @@ void lgl::IndexBuffer::UnBind() {
 }
 
 lgl::IndexBuffer::~IndexBuffer() {
+	//std::cout << "IndexBuffer Deleted: " << id << '\n';
+
 	glDeleteBuffers(1, &id);
 }
 

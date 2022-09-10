@@ -15,12 +15,19 @@ namespace lgl {
 		bool texture_array = false;
 		bool material = false;
 		bool light = false;
-	
+
 	public:
 		Shader();
+		~Shader();
+
 		Shader(const std::string &vs_filename, const std::string &fs_filename, bool file);
 		Shader(const std::string &vs_filename, const std::string &fs_filename);
-		~Shader();
+
+		void VertexShader(const std::string& src, bool file = true);
+		void FragmentShader(const std::string& src, bool file = true);
+		void ComputeShader(const std::string& src, bool file = true);
+		void GeometryShader(const std::string& src, bool file = true);
+		void Link();
 
 		void Bind();
 		void UnBind();

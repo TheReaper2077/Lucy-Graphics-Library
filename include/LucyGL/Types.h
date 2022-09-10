@@ -109,5 +109,9 @@ namespace lgl {
 		STENCIL_BUFFER_BIT = 0x00000400,
 	};
 
+	enum {
+		NONE = 0,
+	};
+
 	void CheckValues();
 }

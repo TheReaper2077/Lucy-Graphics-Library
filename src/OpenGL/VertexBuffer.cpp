@@ -5,11 +5,26 @@
 
 #include <glad/glad.h>
 #include <assert.h>
+//#include <iostream>
 
 lgl::VertexBuffer::VertexBuffer() {
 	glGenBuffers(1, &id);
+
+	//std::cout << "VertexBuffer Created: " << id << '\n';
+
 	type = BufferType_DYNAMIC;
 	size = 0;
+}
+
+lgl::VertexBuffer::VertexBuffer(void* data, size_t size) {
+	type = BufferType_DYNAMIC;
+	this->size = 0;
+
+	glGenBuffers(1, &id);
+	Bind();
+	Allocate(size);
+	AddDataDynamic(data, size);
+	UnBind();
 }
 
 void lgl::VertexBuffer::Bind() {
@@ -21,6 +36,8 @@ void lgl::VertexBuffer::UnBind() {
 }
 
 lgl::VertexBuffer::~VertexBuffer() {
+	//std::cout << "VertexBuffer Deleted: " << id << '\n';
+	
 	glDeleteBuffers(1, &id);
 }
 

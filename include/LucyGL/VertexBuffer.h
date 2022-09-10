@@ -16,6 +16,7 @@ namespace lgl {
 		size_t size = 0;
 
 		VertexBuffer();
+		VertexBuffer(void* data, size_t size);
 		~VertexBuffer();
 
 		void Bind();
