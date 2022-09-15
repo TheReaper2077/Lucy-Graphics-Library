@@ -94,7 +94,7 @@ void lgl::FrameBuffer::AttachTexture2D(Attachment attachment, Texture* texture, 
 }
 
 void lgl::FrameBuffer::SetDrawAttachments(const std::vector<Attachment>& attachments) {
-	auto* draw_attachments = new unsigned int[attachments.size() * sizeof(unsigned int)];
+	auto* draw_attachments = new uint32_t[attachments.size() * sizeof(uint32_t)];
 
 	for (int i = 0; i < attachments.size(); i++)
 		draw_attachments[i] = attachments[i];
