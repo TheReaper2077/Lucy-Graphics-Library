@@ -20,7 +20,7 @@ namespace lgl {
 		~VertexBuffer();
 
 		void Bind();
-		void UnBind();
+		static void UnBind();
 		void Allocate(size_t size);
 		void AddDataDynamic(void* data, size_t size, size_t offset = 0);
 		void AddDataStatic(void* data, size_t size);

@@ -4,7 +4,6 @@
 
 #include <glad/glad.h>
 #include <assert.h>
-//#include <iostream>
 
 lgl::FrameBuffer::FrameBuffer(int width, int height, bool is_picking) {
 	this->width = width;
@@ -62,6 +61,14 @@ lgl::FrameBuffer::FrameBuffer() {
 
 void lgl::FrameBuffer::Bind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, this->id);
+}
+
+void lgl::FrameBuffer::BindRead() {
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, this->id);
+}
+
+void lgl::FrameBuffer::BindDraw() {
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->id);
 }
 
 void lgl::FrameBuffer::UnBind() {

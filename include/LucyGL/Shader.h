@@ -30,7 +30,7 @@ namespace lgl {
 		void Link();
 
 		void Bind();
-		void UnBind();
+		static void UnBind();
 
 		void BindUniformBlock(std::string name, unsigned int index);
 		unsigned int GetUniformLoc(std::string name);

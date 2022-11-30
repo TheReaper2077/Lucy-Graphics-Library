@@ -20,7 +20,9 @@ namespace lgl {
 		Texture* texture = nullptr;
 
 		void Bind();
-		void UnBind();
+		void BindRead();
+		void BindDraw();
+		static void UnBind();
 
 		void AttachTexture2D(Attachment attachment, TextureMode target, TextureId texture, int level = 0);
 		void AttachTexture2D(Attachment attachment, Texture* texture, int level = 0);

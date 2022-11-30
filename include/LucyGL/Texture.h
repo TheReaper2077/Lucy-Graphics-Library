@@ -23,10 +23,17 @@ namespace lgl {
 		Texture(TextureMode mode = TEXTURE_2D);
 		~Texture();
 
-		bool LoadTexture(const char* filename);
-		bool LoadSpriteSheet(const char* filename, int x, int y, int w, int h);
+		void SetMode(lgl::TextureMode mode);
+
+		bool LoadTexture(const char* filename, bool flip = false);
+		bool LoadSpriteSheet(const char* filename, int x, int y, int w, int h, bool flip = false);
+
+		void Load1D(int level, Format internalformat, int width, int border, Format format, Type type, void* data = nullptr);
+		void LoadSub1D(int level, int x, int width, Format format, Type type, void* data = nullptr);
 
 		void Load2D(int level, Format internalformat, int width, int height, int border, Format format, Type type, void* data = nullptr);
+		void LoadSub2D(int level, int x, int y, int width, int height, Format format, Type type, void* data = nullptr);
+
 		void Load3D(int level, Format internalformat, int width, int height, int depth, int border, Format format, Type type, void* data = nullptr);
 		void LoadSub3D(int level, int x, int y, int z, int width, int height, int depth, Format format, Type type, void* data = nullptr);
 
@@ -37,7 +44,8 @@ namespace lgl {
 		void Bind();
 		void BindUnit(const unsigned int unit);
 		void UnBind();
-	};
 
-	void BindTextureUnit(const TextureId id, const unsigned int unit);
+		static void UnBind(const lgl::TextureMode mode);
+		static void BindUnit(const unsigned int unit, const TextureId id);
+	};
 }

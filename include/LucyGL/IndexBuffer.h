@@ -14,7 +14,7 @@ namespace lgl {
 		~IndexBuffer();
 
 		void Bind();
-		void UnBind();
+		static void UnBind();
 		void Allocate(size_t size);
 		void AddData(void* data, size_t size, size_t offset = 0);
 	};

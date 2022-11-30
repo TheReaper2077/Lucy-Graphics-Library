@@ -34,6 +34,6 @@ namespace lgl {
 		void Bind();
 		void BindVertexBuffer(VertexBuffer* vertexbuffer, size_t stride = 0, size_t offset = 0);
 		void BindIndexBuffer(IndexBuffer* indexbuffer);
-		void UnBind();
+		static void UnBind();
 	};
 }

@@ -14,4 +14,7 @@ namespace lgl {
 	void Clear(float r, float g, float b, float a, unsigned int flags);
 	void Clear(unsigned int flags);
 	void ClearColor(float r, float g, float b, float a);
+
+	void Enable();
+	void Disable();
 }

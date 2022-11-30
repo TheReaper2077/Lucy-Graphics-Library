@@ -28,6 +28,7 @@ lgl::VertexArray::VertexArray(std::vector<VertexArrayAttribDescriptor> layouts) 
 				break;
 			case BYTE:
 			case UNSIGNED_BYTE:
+			case UNSIGNED_INT:
 			case INT:
 				glVertexArrayAttribIFormat(id, attrib.idx, attrib.size, attrib.type, relativeoffset);
 				break;
@@ -50,6 +51,10 @@ lgl::VertexArray::VertexArray(std::vector<VertexArrayAttribDescriptor> layouts) 
 			
 			case UNSIGNED_BYTE:
 				relativeoffset += sizeof(GLubyte)*attrib.size;
+				break;
+
+			case UNSIGNED_INT:
+				relativeoffset += sizeof(GLuint)*attrib.size;
 				break;
 
 			case INT:

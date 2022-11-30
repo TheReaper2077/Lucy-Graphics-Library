@@ -40,7 +40,7 @@ lgl::Texture::~Texture() {
 	glDeleteTextures(1, &id);
 }
 
-bool lgl::Texture::LoadTexture(const char* filename) {
+bool lgl::Texture::LoadTexture(const char* filename, bool flip) {
 	assert(mode == TEXTURE_2D);
 
 	mode = TEXTURE_2D;
@@ -49,6 +49,7 @@ bool lgl::Texture::LoadTexture(const char* filename) {
 	SetFilteringMode(FilterMode_NEAREST, FilterMode_NEAREST);
 
 	unsigned char* data = nullptr;
+	stbi_set_flip_vertically_on_load(flip);
 	if (filename) data = stbi_load(filename, &width, &height, &channels, 0);
 		
 	if (!data) {
@@ -67,8 +68,10 @@ bool lgl::Texture::LoadTexture(const char* filename) {
 	return true;
 }
 
-bool lgl::Texture::LoadSpriteSheet(const char* filename, int x, int y, int w, int h) {
+bool lgl::Texture::LoadSpriteSheet(const char* filename, int x, int y, int w, int h, bool flip) {
 	int width, height, channels;
+
+	stbi_set_flip_vertically_on_load(flip);
 	auto* data = stbi_load(filename, &width, &height, &channels, 0);
 
 	mode = TEXTURE_2D_ARRAY;
@@ -139,8 +142,20 @@ bool lgl::Texture::LoadSpriteSheet(const char* filename, int x, int y, int w, in
 	return true;
 }
 
+void lgl::Texture::Load1D(int level, Format internalformat, int width, int border, Format format, Type type, void* data) {
+	glTexImage1D(mode, level, internalformat, width, border, format, type, data);
+}
+
+void lgl::Texture::LoadSub1D(int level, int x, int width, Format format, Type type, void* data) {
+	glTexSubImage1D(mode, level, x, width, format, type, data);
+}
+
 void lgl::Texture::Load2D(int level, Format internalformat, int width, int height, int border, Format format, Type type, void* data) {
 	glTexImage2D(mode, level, internalformat, width, height, border, format, type, data);
+}
+
+void lgl::Texture::LoadSub2D(int level, int x, int y, int width, int height, Format format, Type type, void* data) {
+	glTexSubImage2D(mode, level, x, y, width, height, format, type, data);
 }
 
 void lgl::Texture::Load3D(int level, Format internalformat, int width, int height, int depth, int border, Format format, Type type, void* data) {
@@ -185,14 +200,22 @@ void lgl::Texture::Bind() {
 	glBindTexture(mode, id);
 }
 
+void lgl::Texture::BindUnit(const unsigned int unit, const TextureId id) {
+	glBindTextureUnit(unit, id);
+}
+
 void lgl::Texture::BindUnit(const unsigned int unit) {
 	glBindTextureUnit(unit, id);
+}
+
+void lgl::Texture::SetMode(lgl::TextureMode mode) {
+	this->mode = mode;
 }
 
 void lgl::Texture::UnBind() {
 	glBindTexture(mode, 0);
 }
 
-void lgl::BindTextureUnit(const TextureId id, const unsigned int unit) {
-	glBindTextureUnit(unit, id);
+void lgl::Texture::UnBind(const lgl::TextureMode mode) {
+	glBindTexture(mode, 0);
 }

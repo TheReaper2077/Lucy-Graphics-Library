@@ -16,6 +16,6 @@ namespace lgl {
 		void AddDataDynamic(void* data, size_t size, size_t offset = 0);
 		void BindRange(unsigned int index, size_t size, size_t offset = 0);
 		void Bind();
-		void UnBind();
+		static void UnBind();
 	};
 }
